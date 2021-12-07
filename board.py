@@ -4,6 +4,7 @@ board = [["-", "-", "-"],
 
 firstturn = True
 gameover = False
+win = False
 
 
 def print_board():
@@ -11,7 +12,9 @@ def print_board():
     print(board[0])
     print(board[1])
     print(board[2])
-    if not gameover:
+    if gameover:
+        quit()
+    elif not gameover:
         switch_player()
         player_input()
 
@@ -31,6 +34,7 @@ def input_to_board(row, column):
                 if board[row][column] == "-":
                     board[row][column] = "X"
                     print("Player 1 added mark at the location", row, ',', column)
+                    check_for_win()
                     print_board()
                 else:
                     print("****Board", row, ',', column, "has already been selected. Please try another spot!****")
@@ -51,6 +55,7 @@ def input_to_board(row, column):
                 if board[row][column] == "-":
                     board[row][column] = "O"
                     print("Player 2 added mark at the location", row, ',', column)
+                    check_for_win()
                     print_board()
                 else:
                     print("****Board", row, ',', column, "has already been selected. Please try another spot!****")
@@ -88,5 +93,54 @@ def switch_player():
             playerid = 1
 
 
+def check_for_win():
+    global gameover
+    global win
+
+    # column check
+    if board[0][0] == board[1][0] == board[2][0] != "-":
+        print("Player", playerid, "wins! Game Over")
+        gameover = True
+        win = True
+    if board[0][1] == board[1][1] == board[2][1] != "-":
+        print("Player", playerid, "wins! Game Over")
+        gameover = True
+        win = True
+    if board[0][2] == board[1][2] == board[2][2] != "-":
+        print("Player", playerid, "wins! Game Over")
+        gameover = True
+        win = True
+
+    # row check
+    if board[0][0] == board[0][1] == board[0][2] != "-":
+        print("Player", playerid, "wins! Game Over")
+        gameover = True
+        win = True
+    if board[1][0] == board[1][1] == board[1][2] != "-":
+        print("Player", playerid, "wins! Game Over")
+        gameover = True
+        win = True
+    if board[2][0] == board[2][1] == board[2][2] != "-":
+        print("Player", playerid, "wins! Game Over")
+        gameover = True
+        win = True
+
+    # diagonal check
+    if board[0][0] == board[1][1] == board[2][2] != "-":
+        print("Player", playerid, "wins! Game Over")
+        gameover = True
+        win = True
+    if board[0][2] == board[1][1] == board[2][0] != "-":
+        print("Player", playerid, "wins! Game Over")
+        gameover = True
+        win = True
+
+    # check for draw
+    if board[0][0] != "-" and board[0][1] != "-" and board[0][2] != "-" \
+            and board[1][0] != "-" and board[1][1] != "-" and board[1][2] != "-"\
+            and board[2][0] != "-" and board[2][1] != "-" and board[2][2] != "-" and win != True:
+        print("The game was a draw. Game Over")
+        gameover = True
+
+
 print_board()
-player_input()
